@@ -2,7 +2,7 @@
 
 // Datos de la BBDD
 $bbdd_servidor = 'localhost';
-$bbdd_nombre = 'pruebas_mediciones';
+$bbdd_nombre = 'mediciones';
 $bbdd_user = 'root';
 $bbdd_password = '';
 
