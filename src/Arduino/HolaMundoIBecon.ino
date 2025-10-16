@@ -4,7 +4,6 @@
 //
 // Jordi Bataller i Mascarell
 // 2019-07-07
-//
 // --------------------------------------------------------------
 
 // https://learn.sparkfun.com/tutorials/nrf52840-development-with-arduino-and-circuitpython
@@ -27,11 +26,10 @@
 // --------------------------------------------------------------
 namespace Globales {
   
-  LED elLED ( /* NUMERO DEL PIN LED = */ 7 );
+  LED elLED ( 7 );
 
   PuertoSerie elPuerto ( /* velocidad = */ 115200 ); // 115200 o 9600 o ...
 
-  // Serial1 en el ejemplo de Curro creo que es la conexión placa-sensor 
 };
 
 // --------------------------------------------------------------
@@ -69,9 +67,9 @@ void setup() {
   // 
   // 
   // 
-  inicializarPlaquita();
+  inicializarPlaquita(); 
 
-  // Suspend Loop() to save power
+  // Suspend Loop() 
   // suspendLoop();
 
   // 
@@ -97,7 +95,7 @@ void setup() {
 
 // --------------------------------------------------------------
 // --------------------------------------------------------------
-inline void lucecitas() {
+inline void lucecitas() { 
   using namespace Globales;
 
   elLED.brillar( 100 ); // 100 encendido
@@ -138,21 +136,15 @@ void loop () {
   // 
   int valorCO2 = elMedidor.medirCO2();
   
-  elPublicador.publicarCO2( valorCO2,
+  elPublicador.publicarCO2( valorCO2, // Se publica en el UUID
 							cont,
-							1000 // intervalo de emisión
+							8000 // intervalo de emisión
 							);
   
   // 
   // mido y publico
-  // 
-  int valorTemperatura = elMedidor.medirTemperatura();
+  //
   
-  elPublicador.publicarTemperatura( valorTemperatura, 
-									cont,
-									1000 // intervalo de emisión
-									);
-
   // 
   // prueba para emitir un iBeacon y poner
   // en la carga (21 bytes = uuid 16 major 2 minor 2 txPower 1 )
@@ -160,6 +152,8 @@ void loop () {
   // 
   // Al terminar la prueba hay que hacer Publicador::laEmisora privado
   // 
+
+  
   char datos[21] = {
 	'H', 'o', 'l', 'a',
 	'H', 'o', 'l', 'a',
@@ -169,12 +163,12 @@ void loop () {
 	'H'
   };
 
-  // elPublicador.laEmisora.emitirAnuncioIBeaconLibre ( &datos[0], 21 );
-  elPublicador.laEmisora.emitirAnuncioIBeaconLibre ( "MolaMolaMolaMolaMolaM", 21 );
 
-  esperar( 2000 );
+// elPublicador.laEmisora.emitirAnuncioIBeaconLibre ( &datos[0], 21 );
 
-  elPublicador.laEmisora.detenerAnuncio();
+  esperar( 2500 );
+
+  // elPublicador.laEmisora.detenerAnuncio();
   
   // 
   // 

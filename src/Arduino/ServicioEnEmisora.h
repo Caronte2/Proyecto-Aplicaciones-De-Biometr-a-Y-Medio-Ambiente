@@ -11,6 +11,9 @@
 // ----------------------------------------------------
 #include <vector>
 
+#include <bluefruit.h>     
+using BleSecurityMode = SecureMode_t; 
+
 // ----------------------------------------------------
 // alReves() utilidad
 // pone al revés el contenido de una array en el mismo array
@@ -58,64 +61,69 @@ public:
 											   uint8_t * data, uint16_t len); 
   // .........................................................
   // .........................................................
+
   class Caracteristica {
-  	private:
-		uint8_t uuidCaracteristica[16] = { // el uuid se copia aquí (al revés) a partir de un string-c
+  private:
+	uint8_t uuidCaracteristica[16] = { // el uuid se copia aquí (al revés) a partir de un string-c
 	  // least signficant byte, el primero
 	  '0', '1', '2', '3', 
 	  '4', '5', '6', '7', 
 	  '8', '9', 'A', 'B', 
 	  'C', 'D', 'E', 'F'
-		};
+	};
 
-		// 
-		// 
-		// 
-		BLECharacteristic laCaracteristica;
+	// 
+	// 
+	// 
+	BLECharacteristic laCaracteristica;
 
-  	public:
+  public:
 
-		// .........................................................
-		// .........................................................
-		Caracteristica( const char * nombreCaracteristica_ )
-	  	:
-	  	laCaracteristica( stringAUint8AlReves( nombreCaracteristica_, &uuidCaracteristica[0], 16 ) )
-		{
+	// .........................................................
+	// .........................................................
+	Caracteristica( const char * nombreCaracteristica_ )
+	  :
+	  laCaracteristica( stringAUint8AlReves( nombreCaracteristica_, &uuidCaracteristica[0], 16 ) )
+	{
 	  
 	} // ()
 
-		// .........................................................
-		// .........................................................
-		Caracteristica( const char * nombreCaracteristica_ ,
-						uint8_t props,
-						SecureMode_t permisoRead,
-						SecureMode_t permisoWrite, 
-						uint8_t tam ) 
-	  	:
-	  	Caracteristica( nombreCaracteristica_ ) // llamada al otro constructor
-		{
-	  	(*this).asignarPropiedadesPermisosYTamanyoDatos( props, permisoRead, permisoWrite, tam );
-		} // ()
+	// .........................................................
+	// .........................................................
+	Caracteristica( const char * nombreCaracteristica_ ,
+					uint8_t props,
+					BleSecurityMode permisoRead,
+					BleSecurityMode permisoWrite, 
+					uint8_t tam ) 
+	  :
+	  Caracteristica( nombreCaracteristica_ ) // llamada al otro constructor
+	{
+	  (*this).asignarPropiedadesPermisosYTamanyoDatos( props, permisoRead, permisoWrite, tam );
+	} // ()
 
   private:
 	// .........................................................
 	// CHR_PROPS_WRITE , CHR_PROPS_READ ,  CHR_PROPS_NOTIFY 
 	// .........................................................
+   // Configura propiedades (read, write, notify)
 	void asignarPropiedades ( uint8_t props ) {
 	  // no puedo escribir AUN si el constructor llama a esto: Serial.println( " laCaracteristica.setProperties( props ); ");
-	  (*this).laCaracteristica.setProperties( props );
+	  // si intentas hacer Serial.print dentro del constructor, a veces falla porque aún no se ha inicializado el puerto serie
+    (*this).laCaracteristica.setProperties( props );
 	} // ()
 
 	// .........................................................
 	// BleSecurityMode::SECMODE_OPEN  , BleSecurityMode::SECMODE_NO_ACCESS
 	// .........................................................
-	void asignarPermisos( SecureMode_t permisoRead, SecureMode_t permisoWrite ) {
+  // Configura permisos de lectura/escritura
+	void asignarPermisos( BleSecurityMode permisoRead, BleSecurityMode permisoWrite ) {
 	  // no puedo escribir AUN si el constructor llama a esto: Serial.println( "laCaracteristica.setPermission( permisoRead, permisoWrite ); " );
 	  (*this).laCaracteristica.setPermission( permisoRead, permisoWrite );
 	} // ()
 
 	// .........................................................
 	// .........................................................
+   // Configura tamaño máximo de datos
 	void asignarTamanyoDatos( uint8_t tam ) {
 	  // no puedo escribir AUN si el constructor llama a esto: Serial.print( " (*this).laCaracteristica.setFixedLen( tam = " );
 	  // no puedo escribir AUN si el constructor llama a esto: Serial.println( tam );
@@ -127,8 +135,8 @@ public:
 	// .........................................................
 	// .........................................................
 	void asignarPropiedadesPermisosYTamanyoDatos( uint8_t props,
-												 SecureMode_t permisoRead,
-												 SecureMode_t permisoWrite, 
+												 BleSecurityMode permisoRead,
+												 BleSecurityMode permisoWrite, 
 												 uint8_t tam ) {
 	  asignarPropiedades( props );
 	  asignarPermisos( permisoRead, permisoWrite );
@@ -138,6 +146,7 @@ public:
 
 	// .........................................................
 	// .........................................................
+  // Escribir datos en la característica
 	uint16_t escribirDatos( const char * str ) {
 	  // Serial.print( " return (*this).laCaracteristica.write( str  = " );
 	  // Serial.println( str );
@@ -194,7 +203,7 @@ private:
   //
   //
   //
-  std::vector< Caracteristica * > lasCaracteristicas;
+  std::vector< Caracteristica * > lasCaracteristicas; // lista de características añadidas
 
 public:
   
@@ -254,4 +263,3 @@ public:
 // ----------------------------------------------------------
 // ----------------------------------------------------------
 // ----------------------------------------------------------
-

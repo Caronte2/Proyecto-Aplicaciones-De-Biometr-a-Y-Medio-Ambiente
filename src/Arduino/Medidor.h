@@ -1,5 +1,4 @@
 // -*- mode: c++ -*-
-
 #ifndef MEDIDOR_H_INCLUIDO
 #define MEDIDOR_H_INCLUIDO
 
@@ -22,13 +21,13 @@ public:
   // .....................................................
   // .....................................................
   void iniciarMedidor() {
-	// las cosas que no se puedan hacer en el constructor, if any
+  // las cosas que no se puedan hacer en el constructor, if any
   } // ()
 
   // .....................................................
   // .....................................................
   int medirCO2() {
-	return 235;
+	return 147;
   } // ()
 
   // .....................................................
