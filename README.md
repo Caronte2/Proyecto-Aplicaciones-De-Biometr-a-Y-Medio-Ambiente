@@ -30,3 +30,21 @@ La aplicación consta de tres componentes principales:
     -Generación mediante ArcGIS de mapas de contaminación aplicando técnicas de interpolación habitualmente empleadas en geoestadística para aplicaciones ambientales
 
     -Corrección de las lecturas de cada sensor por comparación con un estación de medida de la GVA cuando el usuario pasa junto a esta
+
+Para iniciar este proyecto hemos de tener en cuenta que se ha hecho por un servido local, en nuestro caso Xampp.
+
+Paso par inciarlo:
+
+1-Descarga xampp en tu ordenador.
+
+2-Cuando ya lo tengas configurado inicia el servido Apache y el de MySql.
+
+3-Metete en la carpeta de xampp, ahí encontraras otra carpeta llamada htdocs donde tendras que añadir este archivo.
+
+4-Abre tu navegador de confianza y usa http://localhost/Proyecto-Aplicaciones-De-Biometr-a-Y-Medio-Ambiente/src/index.html
+
+5-Ejecuta el código de arduino y el código android (Recuerda darle los permisos).
+
+6-Revisa que la ip de tu ordenador coincida con el que se usara en Android.
+
+7-Por ultimo para revisar que la api está funcionando ejecuta la prueba automatica (php pruebaApi.php)

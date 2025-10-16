@@ -1,6 +1,11 @@
+//Creo un evento
 document.addEventListener("DOMContentLoaded", () => {
+
+  //Selecciono donde quiero mostrar los datos
   const cuerpo = document.querySelector("#tabla-mediciones tbody");
 
+  //Con el fercht recojo los datos y los trato dandole forma de tabla
+  //a su vez me aseguro que se muetra algun dato.
   fetch("./Api/getMediciones.php")
     .then(res => res.json())
     .then(datos => {
