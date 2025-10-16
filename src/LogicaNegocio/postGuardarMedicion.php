@@ -5,16 +5,15 @@
 //----------------------------------------------------------------------------
 
 function enviarDatos($conn, $datosRecibidos){
-    $C02 = $datosRecibidos['C02'];
+    $CO2 = $datosRecibidos['CO2'];
     $Temperatura = $datosRecibidos['Temperatura'];
 
-    $sql = "INSERT INTO mediciones VALUES ($C02,$Temperatura)";
+    $sql = "INSERT INTO mediciones(CO2, Temperatura) VALUES ('$CO2','$Temperatura')";
     if ($conn->query($sql)) {
-        return ["status" => "ok", "mensaje" => "Datos insertados correctamente"];
+        return ["status" => "ok", "mensaje" => "Datos insertados correctamente", "CO2" => "$CO2", "Temperatura" => "$Temperatura"];
     } else {
         return ["status" => "error", "mensaje" => $conn->error];
     }
 }
-
 
 ?>

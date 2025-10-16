@@ -1,19 +1,21 @@
 <?php
 
 //---------------------------------------------------------------------------
-// dispositivo:Text --> recogerMediciones --> temperatura: Real, C02: Real
+// dispositivo:Text --> recogerMediciones --> ID: Real, temperatura: Real, C02: Real
 //----------------------------------------------------------------------------
 
 function recogerMediciones ($conn){
-    // $sql = "SELECT CO2, Temperatura FROM mediciones";
+    $sql = "SELECT * FROM mediciones";
+    $datosRecogidos = $conn -> query($sql);
 
-    // $datosRecogidos = $conn -> query($sql);
+    $mediciones = [];
 
-    
-    // /*
-    // $datosRecogidos -> CO2 = $mediciones
-    // $datosRecogidos -> Temperatura = $mediciones;*/
-    // return $datosRecogidos;
+    if ($datosRecogidos && $datosRecogidos->num_rows > 0) {
+        while ($fila = $datosRecogidos->fetch_assoc()) {
+            $mediciones[] = $fila;
+        }
+    }
+    return $mediciones;
 }
 
 ?>
